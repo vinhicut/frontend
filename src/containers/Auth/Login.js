@@ -10,24 +10,66 @@ import { Label } from 'reactstrap';
 class Login extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            username: '',
+            password: '',
+            isShowPassword: false
+        }
     }
 
+    handleOnChangeUsername = (event) => {
+        this.setState({
+            username: event.target.value
+
+        })
+    }
+    handleOnChangePassword = (event) => {
+        this.setState({
+            password: event.target.value
+
+        })
+    }
+    handleLogin = () => {
+        console.log("user name: " + this.state.username, "password: " + this.state.password)
+        console.log("all state", this.state)
+    }
+    handleShowHidePassword = () => {
+        this.setState({
+            isShowPassword: !this.state.isShowPassword
+        })
+    }
     render() {
-        return (  //render ra 1 khối thôi, có thể dùng nhiều khối nhưng phải bọc lại
+        return (
             <div className='login-background'>
                 <div className='login-container'>
                     <div className='login-content'>
                         <div className='col-12 text-login'>Login</div>
                         <div className="col-12 frorm-group login-input">
                             <Label>Username</Label>
-                            <input type='text' className='form-control' placeholder='Enter your username' />
+                            <input type='text' className='form-control'
+                                placeholder='Enter your username'
+                                value={this.state.username}
+                                onChange={(event) => this.handleOnChangeUsername(event)}
+                            />
                         </div>
                         <div className="col-12 frorm-group login-input">
-                            <Label>Password</Label>
-                            <input type='password' className='form-control' placeholder='Enter your password' />
+                            <Label>Password: </Label>
+                            <div className='custom-input-password'>
+                                <input
+                                    className='form-control'
+                                    type={this.state.isShowPassword ? 'text' : 'password'}
+                                    placeholder='Enter your password'
+                                    onChange={(event) => { this.handleOnChangePassword(event) }}
+                                />
+                                <span
+                                    onClick={() => { this.handleShowHidePassword() }}
+                                ><i className={this.state.isShowPassword ? 'far fa-eye' : 'far fa-eye-slash'}></i></span>
+
+                            </div>
+
                         </div>
                         <div className='col-12 '>
-                            <button className='btn-login'>Login</button>
+                            <button className='btn-login' onClick={() => { this.handleLogin() }}>Login</button>
                         </div>
                         <div className='col-12'>
                             <span className='forgot-password'>Forgot your password?</span>
