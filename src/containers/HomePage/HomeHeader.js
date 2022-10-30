@@ -3,12 +3,18 @@ import { connect } from 'react-redux';
 import './HomeHeader.scss';
 import logo from '../../assets/logo.svg';
 import { FormattedMessage } from 'react-intl';
+import { LANGUAGES } from "../../utils";
+import { changeLanguageApp } from '../../store/actions/appActions';
 
 class HomeHeader extends Component {
 
-    render() {
-        const { isLoggedIn } = this.props;
 
+    changeLanguage = (language) => {
+        this.props.changeLanguageAppRedux(language)
+        //fire redux event: actions
+    }
+    render() {
+        let language = this.props.language;
 
         return (
             <React.Fragment>
@@ -29,7 +35,7 @@ class HomeHeader extends Component {
                             </div>
                             <div className='child-content'>
                                 <div><b><FormattedMessage id="homeheader.doctor" /></b></div>
-                                <div className='subs-title'><FormattedMessage id="select-doctor" /></div>
+                                <div className='subs-title'><FormattedMessage id="homeheader.select-doctor" /></div>
                             </div>
                             <div className='child-content'>
                                 <div><b><FormattedMessage id="homeheader.fee" /></b></div>
@@ -40,8 +46,8 @@ class HomeHeader extends Component {
                         <div className='right-content'>
                             <div className='support'><i className='fas fa-question-circle'></i>
                                 <FormattedMessage id="homeheader.support" /></div>
-                            <div className='language-vi'>VI</div>
-                            <div className='language-en'>EN</div>
+                            <div className={language === LANGUAGES.VI ? 'language-vi active' : 'language-vi'}><span onClick={() => this.changeLanguage(LANGUAGES.VI)}>VI</span></div>
+                            <div className={language === LANGUAGES.EN ? 'language-en active' : 'language-en'}><span onClick={() => this.changeLanguage(LANGUAGES.EN)}>EN</span></div>
 
                         </div>
 
@@ -100,6 +106,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        changeLanguageAppRedux: (language) => dispatch(changeLanguageApp(language))
     };
 };
 
